@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,10 +38,10 @@
     const box = document.getElementById('reviews-list');
     try {
       const { data, error } = await sb.from('reviews').select('nick,text,rating,created_at').order('created_at',{ascending:false});
-      if (error || !data?.length) { box.innerHTML='<p class="review-empty">'+window._t('no_reviews')+'</p>'; return; }
+      if (error || !data?.length) { box.innerHTML='<p class="review-empty">// no reviews yet. be first.</p>'; return; }
       box.innerHTML='';
       data.forEach(r => {
-        const date = new Date(r.created_at).toLocaleDateString(window._lang==='en'?'en-GB':'ru');
+        const date = new Date(r.created_at).toLocaleDateString('en-GB');
         const el = document.createElement('div');
         el.className='review-card';
         el.innerHTML='<div class="review-header"><span class="review-author">'+sanitize(r.nick)+'</span><span class="review-meta"><span class="review-stars">'+stars(r.rating||0)+'</span><span class="review-date">'+date+'</span></span></div><div class="review-body">'+sanitize(r.text)+'</div>';
@@ -92,7 +92,7 @@
         paintStars(0);
         await loadReviews();
       } catch(err) { alert('error: '+err.message); }
-      btn.disabled=false; btn.textContent=window._t('send_btn');
+      btn.disabled=false; btn.textContent='send';
     });
   });
 </script>
@@ -155,7 +155,7 @@ body::after {
 .boot-prompt { color: #4ade80; }
 .boot-cmd    { color: #fff; }
 .boot-ok     { color: #4ade80; }
-.boot-warn  { color: #fbbf24; }
+.boot-warn   { color: #fbbf24; }
 .boot-dim    { color: #383838; }
 .boot-hi     { color: #c084fc; }
 .boot-cursor {
@@ -173,7 +173,7 @@ body::after {
 
 .music-banner {
   position: absolute; inset: 0;
-  background: url('https://i.ibb.co/8nKfvsvr/7ceba780815973-5cec6bcf6d086.gif') center/cover no-repeat;
+  background: url('https://raw.githubusercontent.com/genjutsu-one/bio/main/media/music_banner.gif') center/cover no-repeat;
   opacity: .12; pointer-events: none;
 }
 .music-card { position: relative; overflow: hidden; }
@@ -199,21 +199,14 @@ body::after {
 @keyframes blink { 0%,100% { opacity:1 } 50% { opacity:.25 } }
 .topbar-right { display: flex; align-items: center; gap: 6px; color: var(--color-faint); }
 
-.lang-toggle {
-  background: none; border: 1px solid var(--color-border2);
-  color: var(--color-faint); padding: 2px 8px; border-radius: 3px;
-  font-family: var(--font-mono); font-size: 10px;
-  cursor: pointer; transition: border-color .15s, color .15s;
-}
-.lang-toggle:hover  { border-color: #333; color: var(--color-muted); }
-.lang-toggle.active { border-color: var(--color-faint); color: var(--color-text); }
-
 .profile-card {
   margin-top: 44px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 10px; overflow: hidden;
   max-width: 680px; margin-left: auto; margin-right: auto;
+  position: relative;
+  z-index: 10;
 }
 .profile-banner { width: 100%; height: 200px; object-fit: cover; object-position: center 30%; display: block; }
 .profile-bottom { padding: 0 20px 20px; }
@@ -222,7 +215,11 @@ body::after {
 .profile-name { font-family: var(--font-gothic); font-size: 28px; color: var(--color-white); letter-spacing: .5px; line-height: 1; }
 .profile-location { font-size: 11px; color: var(--color-faint); margin-top: 4px; }
 
-.main-wrap { max-width: 680px; margin: 0 auto; padding: 0 18px 80px; }
+.main-wrap { 
+  max-width: 680px; margin: 0 auto; padding: 0 18px 80px; 
+  position: relative;
+  z-index: 10; 
+}
 
 .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 12px 0; }
 .stat-box {
@@ -430,16 +427,12 @@ textarea.text-input { resize: vertical; min-height: 70px; }
     <div class="status-dot"></div>
     <span>unnamed.dev</span>
   </div>
-  <div class="topbar-right">
-    <button class="lang-toggle active" id="btn-ru" onclick="setLang('ru')">RU</button>
-    <button class="lang-toggle"        id="btn-en" onclick="setLang('en')">EN</button>
-  </div>
 </header>
 
 <div style="max-width:680px; margin:0 auto; padding:0 18px;">
   <div class="profile-card">
     <img class="profile-banner"
-      src="https://i.ibb.co/MxqCR9qY/Cyberpunk-Cyberpunk-2077-GIF-Cyberpunk-Cyberpunk-2077-Cyberpunk-Edgerunners-Discover-Share-GIF.gif"
+      src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/banner.gif"
       alt="banner">
     <div class="profile-bottom">
       <div class="avatar-wrap">
@@ -459,7 +452,7 @@ textarea.text-input { resize: vertical; min-height: 70px; }
     </div>
     <div class="stat-box">
       <div class="stat-number">3+</div>
-      <div class="stat-label" data-i18n="stat_langs">// languages</div>
+      <div class="stat-label">// languages</div>
     </div>
     <div class="stat-box">
       <div class="stat-number">∞</div>
@@ -467,29 +460,29 @@ textarea.text-input { resize: vertical; min-height: 70px; }
     </div>
   </div>
 
-  <div class="section-title" data-i18n="sec_about">обо мне</div>
+  <div class="section-title">about</div>
   <section id="about" class="card">
     <div class="card-header"><div class="dot"></div><span>about<span class="ext">.md</span></span></div>
     <div class="card-content">
       <div class="code-block">
         <div class="code-row"><span class="line-num">1</span>&nbsp;<span class="kw">const</span>&nbsp;<span class="prop">dev</span>&nbsp;<span class="punc">=</span>&nbsp;<span class="punc">{</span></div>
-        <div class="code-row"><span class="line-num">2</span>&nbsp;&nbsp;&nbsp;<span class="prop">name</span><span class="punc">:</span>&nbsp;<span class="str" data-i18n-val="name_val">"Дмитрий"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">2</span>&nbsp;&nbsp;&nbsp;<span class="prop">name</span><span class="punc">:</span>&nbsp;<span class="str">"Dmitriy"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">3</span>&nbsp;&nbsp;&nbsp;<span class="prop">alias</span><span class="punc">:</span>&nbsp;<span class="str">"Unnamed"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">4</span>&nbsp;&nbsp;&nbsp;<span class="prop">location</span><span class="punc">:</span>&nbsp;<span class="str" data-i18n-val="location_val">"Москва, Россия"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">5</span>&nbsp;&nbsp;&nbsp;<span class="prop">occupation</span><span class="punc">:</span>&nbsp;<span class="str" data-i18n-val="role_val">"solo developer &amp; reseller"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">4</span>&nbsp;&nbsp;&nbsp;<span class="prop">location</span><span class="punc">:</span>&nbsp;<span class="str">"Moscow, Russia"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">5</span>&nbsp;&nbsp;&nbsp;<span class="prop">occupation</span><span class="punc">:</span>&nbsp;<span class="str">"solo developer &amp; reseller"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">6</span>&nbsp;&nbsp;&nbsp;<span class="prop">my_projects</span><span class="punc">:</span>&nbsp;<span class="punc">[</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str" data-i18n-val="focus_val">"модули под Heroku"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str" data-i18n-val="focus2_val">"плагины для ayu / extera"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str" data-i18n-val="focus3_val">"читы для андроид (brawl stars, crmp, the ghost, standoff 2 и др.)"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str" data-i18n-val="focus4_val">"вредоносное по: стиллеры, крашеры, ратки, спуферы, кейлоггеры"</span></div>
+        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Heroku modules"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"ayu / extera plugins"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"android cheats (brawl stars, crmp, the ghost, standoff 2 etc.)"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"malware: stealers, crashers, rat, spoofers, keyloggers"</span></div>
         <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;<span class="punc">],</span></div>
-        <div class="code-row"><span class="line-num">7</span>&nbsp;&nbsp;&nbsp;<span class="prop">resell</span><span class="punc">:</span>&nbsp;<span class="str" data-i18n-val="resell_val">"читы на вуву"</span><span class="punc">,</span></div>
+        <div class="code-row"><span class="line-num">7</span>&nbsp;&nbsp;&nbsp;<span class="prop">resell</span><span class="punc">:</span>&nbsp;<span class="str">"wuwa cheats"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">8</span><span class="punc">}</span></div>
       </div>
     </div>
   </section>
 
-  <div class="section-title" data-i18n="sec_music">музыка</div>
+  <div class="section-title">music</div>
   <section class="card music-card">
     <div class="music-banner"></div>
     <div class="card-header"><div class="dot"></div><span>music<span class="ext">.mp3</span></span></div>
@@ -509,40 +502,40 @@ textarea.text-input { resize: vertical; min-height: 70px; }
           </div>
         </div>
       </div>
-      <audio id="audio" src="https://files.catbox.moe/hbka8p.mp3" preload="auto" loop></audio>
+      <audio id="audio" src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/music.mp3" preload="auto" loop></audio>
     </div>
   </section>
 
-  <div class="section-title" data-i18n="sec_roles">community</div>
+  <div class="section-title">community</div>
   <section id="roles">
     <div class="community-list">
       <a class="community-item" href="https://discord.gg/DnY4wgr2ej" target="_blank" rel="noopener">
-        <div class="community-icon"><img src="https://i.ibb.co/jkKd1DVR/IMG-20260612-015142-606.jpg" alt="Black Shores"></div>
+        <div class="community-icon"><img src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/bs.jpg" alt="Black Shores"></div>
         <div class="community-info">
           <div class="community-name">Black Shores</div>
-          <div class="community-platform" data-i18n="bs_discord_meta">Discord</div>
+          <div class="community-platform">Discord</div>
         </div>
-        <div class="community-badge" data-i18n="badge_reseller">ресейлер</div>
+        <div class="community-badge">reseller</div>
       </a>
       <a class="community-item" href="https://t.me/BlackShoresCheat" target="_blank" rel="noopener">
-        <div class="community-icon"><img src="https://i.ibb.co/jkKd1DVR/IMG-20260612-015142-606.jpg" alt="Black Shores"></div>
+        <div class="community-icon"><img src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/bs.jpg" alt="Black Shores"></div>
         <div class="community-info">
           <div class="community-name">Black Shores</div>
-          <div class="community-platform" data-i18n="bs_tg_meta">Telegram</div>
+          <div class="community-platform">Telegram</div>
         </div>
-        <div class="community-badge" data-i18n="badge_founder">владелец</div>
+        <div class="community-badge">owner</div>
       </a>
     </div>
   </section>
 
-  <div class="section-title" data-i18n="sec_links">ссылки</div>
+  <div class="section-title">links</div>
   <section class="card">
     <div class="card-header"><div class="dot"></div><span>links<span class="ext">.ts</span></span></div>
     <div class="card-content">
       <div class="links-list">
         <a class="link-item" href="https://t.me/vpnsakura" target="_blank" rel="noopener">
           <div class="link-left">
-            <div class="link-icon"><img src="https://i.ibb.co/PZstGTNh/images.png" alt="tg"></div>
+            <div class="link-icon"><img src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/tg.jpg" alt="tg"></div>
             <div>
               <div class="link-name">Telegram</div>
               <div class="link-url">@vpnsakura</div>
@@ -552,7 +545,7 @@ textarea.text-input { resize: vertical; min-height: 70px; }
         </a>
         <a class="link-item" href="https://discord.com/users/715859176890433546" target="_blank" rel="noopener">
           <div class="link-left">
-            <div class="link-icon"><img src="https://i.ibb.co/RknVCvm3/50fbcda1d83e4a9af2684d2f1af7b8de.jpg" alt="ds"></div>
+            <div class="link-icon"><img src="https://raw.githubusercontent.com/genjutsu-one/bio/main/media/discord.jpg" alt="ds"></div>
             <div>
               <div class="link-name">Discord</div>
               <div class="link-url">715859176890433546</div>
@@ -564,14 +557,14 @@ textarea.text-input { resize: vertical; min-height: 70px; }
     </div>
   </section>
 
-  <div class="section-title" data-i18n="sec_reviews">отзывы</div>
+  <div class="section-title">reviews</div>
   <section id="reviews" class="card">
     <div class="card-header"><div class="dot"></div><span>reviews<span class="ext">.db</span></span></div>
     <div class="card-content">
       <div id="reviews-list"><p class="review-empty">// loading...</p></div>
       <form class="review-form" id="review-form">
-        <input class="text-input" id="input-nick" type="text" maxlength="32" required placeholder="// ник" data-i18n-ph="ph_name">
-        <textarea class="text-input" id="input-text" maxlength="500" required placeholder="// отзыв..." data-i18n-ph="ph_review"></textarea>
+        <input class="text-input" id="input-nick" type="text" maxlength="32" required placeholder="// nick">
+        <textarea class="text-input" id="input-text" maxlength="500" required placeholder="// leave a review..."></textarea>
         <div class="form-bottom">
           <div class="star-picker">
             <svg class="star-input" data-v="1" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
@@ -580,7 +573,7 @@ textarea.text-input { resize: vertical; min-height: 70px; }
             <svg class="star-input" data-v="4" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
             <svg class="star-input" data-v="5" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
           </div>
-          <button class="submit-btn" type="submit" id="btn-submit" data-i18n="send_btn">send</button>
+          <button class="submit-btn" type="submit" id="btn-submit">send</button>
         </div>
       </form>
     </div>
@@ -603,50 +596,6 @@ textarea.text-input { resize: vertical; min-height: 70px; }
 </button>
 
 <script>
-const translations = {
-  ru: {
-    nav_about:'обо мне', nav_roles:'community', nav_reviews:'отзывы',
-    location:'Москва, Россия', name_val:'"Дмитрий"', location_val:'"Москва, Россия"',
-    role_val:'"solo developer &amp; reseller"',
-    focus_val:'"модули под Heroku"', focus2_val:'"плагины для ayu / extera"',
-    focus3_val:'"читы для андроид (brawl stars, crmp, the ghost, standoff 2 и др.)"',
-    focus4_val:'"вредоносное по: стиллеры, крашеры, ратки, спуферы, кейлоггеры"',
-    resell_val:'"читы на вуву"', stat_langs:'// языков',
-    sec_about:'обо мне', sec_music:'музыка', sec_roles:'community', sec_links:'ссылки', sec_reviews:'отзывы',
-    bs_discord_meta:'Discord', bs_tg_meta:'Telegram', badge_reseller:'ресейлер', badge_founder:'владелец',
-    ph_name:'// ник', ph_review:'// отзыв...', send_btn:'send', no_reviews:'// отзывов пока нет. будь первым.',
-  },
-  en: {
-    nav_about:'about', nav_roles:'community', nav_reviews:'reviews',
-    location:'Moscow, Russia', name_val:'"Dmitriy"', location_val:'"Moscow, Russia"',
-    role_val:'"solo developer &amp; reseller"',
-    focus_val:'"Heroku modules"', focus2_val:'"ayu / extera plugins"',
-    focus3_val:'"android cheats (brawl stars, crmp, the ghost, standoff 2 etc.)"',
-    focus4_val:'"malware: stealers, crashers, rat, spoofers, keyloggers"',
-    resell_val:'"wuwa cheats"', stat_langs:'// languages',
-    sec_about:'about', sec_music:'music', sec_roles:'community', sec_links:'links', sec_reviews:'reviews',
-    bs_discord_meta:'Discord', bs_tg_meta:'Telegram', badge_reseller:'reseller', badge_founder:'owner',
-    ph_name:'// nick', ph_review:'// leave a review...', send_btn:'send', no_reviews:'// no reviews yet. be first.',
-  }
-};
-
-window._lang = (navigator.language||'ru').startsWith('en')?'en':'ru';
-window._t = k => translations[window._lang][k]||k;
-
-function setLang(lang) {
-  window._lang=lang;
-  document.documentElement.lang=lang;
-  document.getElementById('btn-ru').classList.toggle('active',lang==='ru');
-  document.getElementById('btn-en').classList.toggle('active',lang==='en');
-  const T=translations[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el => { if(T[el.dataset.i18n]!==undefined) el.textContent=T[el.dataset.i18n]; });
-  document.querySelectorAll('[data-i18n-val]').forEach(el => { if(T[el.dataset.i18nVal]!==undefined) el.innerHTML=T[el.dataset.i18nVal]; });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => { if(T[el.dataset.i18nPh]!==undefined) el.placeholder=T[el.dataset.i18nPh]; });
-  if(window._loadReviews) window._loadReviews();
-}
-
-document.addEventListener('DOMContentLoaded', () => setLang(window._lang));
-
 (function bootSequence() {
   const term = document.getElementById('boot-terminal');
   const lines = [
