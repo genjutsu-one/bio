@@ -155,6 +155,7 @@ body::after {
 .boot-prompt { color: #4ade80; }
 .boot-cmd    { color: #fff; }
 .boot-ok     { color: #4ade80; }
+.boot-warn  { color: #fbbf24; }
 .boot-dim    { color: #383838; }
 .boot-hi     { color: #c084fc; }
 .boot-cursor {
@@ -650,11 +651,11 @@ document.addEventListener('DOMContentLoaded', () => setLang(window._lang));
   const term = document.getElementById('boot-terminal');
   const lines = [
     {cls:'', html:'<span class="boot-prompt">unnamed@dev</span><span class="boot-dim">:</span><span class="boot-hi">~</span><span class="boot-dim">$</span> <span class="boot-cmd">./start.sh</span>'},
-    {cls:'boot-dim', html:'calculating free time for today...'},
-    {cls:'', html:'<span class="boot-ok">[  OK  ]</span> <span class="boot-dim">calculation of free time...</span>'},
+    {cls:'boot-dim', html:'calculating sleep debt...'},
+    {cls:'', html:'<span class="boot-warn">[  Warning  ]</span> <span class="boot-dim">sleep debt: CRITICAL</span>'},
     {cls:'', html:'<span class="boot-ok">[  OK  ]</span> <span class="boot-dim">loading good mood...</span>'},
     {cls:'', html:'<span class="boot-ok">[  OK  ]</span> <span class="boot-dim">coffee dependency resolved</span>'},
-    {cls:'', html:'<span class="boot-ok">[  OK  ]</span> <span class="boot-dim">skill issue handler: disabled</span>'},
+    {cls:'', html:'<span class="boot-ok">[  OK  ]</span> <span class="boot-dim">Arasaka firewall: bypassed</span>'},
     {cls:'boot-dim', html:'starting unnamed.dev...'},
     {cls:'', html:'<span class="boot-prompt">unnamed@dev</span><span class="boot-dim">:</span><span class="boot-hi">~</span><span class="boot-dim">$</span> <span class="boot-cursor"></span>'},
   ];
