@@ -225,7 +225,7 @@ body::after {
 .profile-bottom { padding: 0 20px 20px; }
 .avatar-wrap { display: inline-block; margin-top: -52px; margin-bottom: 6px; }
 .avatar { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 4px solid var(--color-surface); display: block; }
-.profile-name { font-family: var(--font-gothic); font-size: 28px; color: var(--color-white); letter-spacing: .5px; line-height: 1; }
+.profile-name { font-family: var(--font-gothic); font-size: 28px; background: linear-gradient(90deg, #6534bf, #6600ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: .5px; line-height: 1; }
 .profile-location { font-size: 11px; color: var(--color-faint); margin-top: 4px; }
 
 .main-wrap { 
@@ -290,6 +290,21 @@ body::after {
 .prop { color: #93c5fd; }
 .str  { color: #86efac; }
 .punc { color: var(--color-faint); }
+
+.glitch-ts {
+  color: #86efac;
+  animation: glitch-shadow 0.1s steps(1) infinite;
+}
+@keyframes glitch-shadow {
+  0%   { text-shadow: -3px  1px #ff1111,  3px -1px #1133ff; }
+  15%  { text-shadow:  3px -2px #ff1111, -2px  2px #1133ff; }
+  30%  { text-shadow: -2px  2px #ffffff,  4px -1px #ff1111; }
+  45%  { text-shadow:  4px  1px #1133ff, -3px -2px #ffffff; }
+  60%  { text-shadow: -4px -1px #ff1111,  2px  2px #1133ff; }
+  75%  { text-shadow:  2px -2px #ffffff, -4px  1px #ff1111; }
+  90%  { text-shadow: -2px  1px #1133ff,  3px -2px #ffffff; }
+  100% { text-shadow: -3px  1px #ff1111,  3px -1px #1133ff; }
+}
 
 .player-wrap { display: flex; align-items: center; gap: 16px; }
 .album-cover {
@@ -482,12 +497,7 @@ textarea.text-input { resize: vertical; min-height: 70px; }
         <div class="code-row"><span class="line-num">3</span>&nbsp;&nbsp;&nbsp;<span class="prop">alias</span><span class="punc">:</span>&nbsp;<span class="str">"Unnamed"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">4</span>&nbsp;&nbsp;&nbsp;<span class="prop">location</span><span class="punc">:</span>&nbsp;<span class="str">"Moscow, Russia"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">5</span>&nbsp;&nbsp;&nbsp;<span class="prop">occupation</span><span class="punc">:</span>&nbsp;<span class="str">"solo dev &amp; reseller"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">6</span>&nbsp;&nbsp;&nbsp;<span class="prop">my_projects</span><span class="punc">:</span>&nbsp;<span class="punc">[</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Heroku modules"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"ayu / extera plugins"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"android cheats (brawl stars, crmp, the ghost, standoff 2 etc.)"</span><span class="punc">,</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"malware: stealers, crashers, rat, spoofers, keyloggers"</span></div>
-        <div class="code-row"><span class="line-num">&nbsp;</span>&nbsp;&nbsp;&nbsp;<span class="punc">],</span></div>
+        <div class="code-row"><span class="line-num">6</span>&nbsp;&nbsp;&nbsp;<span class="prop">my_projects</span><span class="punc">:</span>&nbsp;<span class="str glitch-ts">[&nbsp;TOP&nbsp;SECRET&nbsp;]</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">7</span>&nbsp;&nbsp;&nbsp;<span class="prop">resell</span><span class="punc">:</span>&nbsp;<span class="str">"wuwa cheats"</span><span class="punc">,</span></div>
         <div class="code-row"><span class="line-num">8</span><span class="punc">}</span></div>
       </div>
@@ -685,54 +695,36 @@ const ptimeEl = document.getElementById('ptime');
 const coverEl = document.getElementById('cover');
 
 let musicStarted = false;
-let playAttempt = false;
 
 function setPlayingUI(isPlaying) {
   coverEl.classList.toggle('spinning', isPlaying);
 }
 
-function applyMuteUI() {
-  const isMuted = audio.muted;
-  document.getElementById('ficon-vol').style.display = isMuted ? 'none' : '';
-  document.getElementById('ficon-mute').style.display = isMuted ? '' : 'none';
-}
-
-async function startMusic() {
-  if (musicStarted) return;
-  if (playAttempt) return;
-  
-  playAttempt = true;
-  
-  try {
-    audio.muted = false;
-    audio.volume = 0.6;
-    await audio.play();
-    musicStarted = true;
-    setPlayingUI(true);
-    applyMuteUI();
-    
-    window.removeEventListener('scroll', startMusic);
-    window.removeEventListener('touchstart', startMusic);
-    document.removeEventListener('click', startMusic);
-    document.removeEventListener('touchstart', startMusic);
-  } catch (err) {
-    console.log('Playback failed:', err);
-    playAttempt = false;
-  }
+function applyMuteUI(playing) {
+  document.getElementById('ficon-vol').style.display = playing ? '' : 'none';
+  document.getElementById('ficon-mute').style.display = playing ? 'none' : '';
 }
 
 function toggleMute() {
   if (!musicStarted) {
-    startMusic();
+    audio.volume = 0.6;
+    audio.play().then(() => {
+      musicStarted = true;
+      setPlayingUI(true);
+      applyMuteUI(true);
+    }).catch(() => {});
     return;
   }
-  audio.muted = !audio.muted;
-  applyMuteUI();
+  if (!audio.paused) {
+    audio.pause();
+    setPlayingUI(false);
+    applyMuteUI(false);
+  } else {
+    audio.play();
+    setPlayingUI(true);
+    applyMuteUI(true);
+  }
 }
-
-document.addEventListener('click', startMusic);
-document.addEventListener('touchstart', startMusic);
-window.addEventListener('scroll', startMusic);
 
 function fmt(seconds) {
   if (!seconds || isNaN(seconds)) return '0:00';
@@ -758,6 +750,7 @@ document.getElementById('progress-bar').addEventListener('click', (e) => {
 });
 
 window.toggleMute = toggleMute;
+document.getElementById('floatmute').addEventListener('click', toggleMute);
 </script>
 </body>
 </html>
