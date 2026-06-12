@@ -140,7 +140,6 @@ body {
 }
 
 #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-#play-overlay { position: fixed; inset: 0; z-index: 9000; background: transparent; cursor: pointer; }
 
 body::after {
   content: '';
@@ -434,7 +433,6 @@ textarea.text-input { resize: vertical; min-height: 70px; }
 
 <div id="site-wrapper">
 <canvas id="bg-canvas"></canvas>
-<div id="play-overlay" onclick="overlayClick()"></div>
 
 <header class="topbar">
   <div class="topbar-left">
@@ -688,11 +686,7 @@ const cover=document.getElementById('cover');
 
 function setPlayingUI(p){cover.classList.toggle('spinning',p);}
 
-function applyMuteUI(){
-  const m=audio.muted;
-  document.getElementById('ficon-vol').style.display=m?'none':'';
-  document.getElementById('ficon-mute').style.display=m?'':'none';
-}
+function applyMuteUI(){\n  const m=audio.muted;\n  document.getElementById('ficon-vol').style.display=m?'none':'';\n  document.getElementById('ficon-mute').style.display=m?'':'none';\n}
 
 function togglePlay(){
   if(audio.paused) audio.play().then(()=>setPlayingUI(true)).catch(()=>{});
@@ -701,14 +695,29 @@ function togglePlay(){
 
 function toggleMute(){audio.muted=!audio.muted;applyMuteUI();}
 
-function overlayClick(){
-  document.getElementById('play-overlay').remove();
-  audio.muted=false;audio.volume=0.6;applyMuteUI();
-  audio.play().then(()=>setPlayingUI(true)).catch(()=>{});
+function initAudioOnInteraction() {
+  if (audio.paused) {
+    audio.play().then(() => setPlayingUI(true)).catch(() => {});
+  }
+  audio.muted = false;
+  audio.volume = 0.6;
+  applyMuteUI();
+  window.removeEventListener('click', initAudioOnInteraction);
+  window.removeEventListener('touchstart', initAudioOnInteraction);
+  window.removeEventListener('scroll', initAudioOnInteraction);
 }
 
-audio.volume=0.6;audio.muted=true;applyMuteUI();
-audio.play().then(()=>setPlayingUI(true)).catch(()=>{});
+audio.volume = 0.6;
+audio.muted = true;
+applyMuteUI();
+
+audio.play().then(() => {
+  setPlayingUI(true);
+}).catch((err) => {});
+
+window.addEventListener('click', initAudioOnInteraction);
+window.addEventListener('touchstart', initAudioOnInteraction);
+window.addEventListener('scroll', initAudioOnInteraction);
 
 audio.addEventListener('timeupdate',()=>{
   if(!audio.duration)return;
