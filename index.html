@@ -38,6 +38,18 @@
     const box = document.getElementById('reviews-list');
     try {
       const { data, error } = await sb.from('reviews').select('nick,text,rating,created_at').order('created_at',{ascending:false});
+      
+      let avg = '0.0';
+      let cnt = 0;
+      if (data && data.length) {
+        cnt = data.length;
+        const sum = data.reduce((a, r) => a + (r.rating || 0), 0);
+        avg = (sum / cnt).toFixed(1);
+      }
+      
+      document.querySelectorAll('.rating-counter').forEach(el => el.textContent = avg);
+      document.querySelectorAll('.reviews-counter').forEach(el => el.textContent = cnt);
+
       if (error || !data?.length) { box.innerHTML='<p class="review-empty">// no reviews yet. be first.</p>'; return; }
       box.innerHTML='';
       data.forEach(r => {
@@ -49,6 +61,8 @@
       });
     } catch(e) {
       box.innerHTML='<p class="review-empty">// error loading</p>';
+      document.querySelectorAll('.rating-counter').forEach(el => el.textContent = '0.0');
+      document.querySelectorAll('.reviews-counter').forEach(el => el.textContent = '0');
     }
   }
 
@@ -447,16 +461,16 @@ textarea.text-input { resize: vertical; min-height: 70px; }
 
   <div class="stats-grid">
     <div class="stat-box">
+      <div class="stat-number rating-counter">...</div>
+      <div class="stat-label">// rating</div>
+    </div>
+    <div class="stat-box">
       <div class="stat-number view-counter">...</div>
       <div class="stat-label">// views</div>
     </div>
     <div class="stat-box">
-      <div class="stat-number">3+</div>
-      <div class="stat-label">// languages</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number">∞</div>
-      <div class="stat-label">// coffee</div>
+      <div class="stat-number reviews-counter">...</div>
+      <div class="stat-label">// reviews</div>
     </div>
   </div>
 
