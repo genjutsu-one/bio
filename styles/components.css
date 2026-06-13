@@ -248,7 +248,8 @@
     transform: none !important;
     will-change: auto;
   }
-  .stat-box::before, .card::before, .community-item::before { display: none; }
+  .stat-box::before { display: block; }
+  .card::before, .community-item::before { display: none; }
   .stat-box:hover, .card:hover, .community-item:hover {
     border-color: var(--color-border) !important;
     background: var(--color-surface) !important;
@@ -258,12 +259,19 @@
   .stat-number { transition: none; }
   .stat-box:hover .stat-number { color: var(--color-white); }
 
-  .stat-box:active {
+  .stat-box.is-active {
     border-color: #8b5cf6 !important;
     background: rgba(139, 92, 246, 0.07) !important;
     transform: scale(0.97) !important;
   }
-  .stat-box:active .stat-number {
+  .stat-box.is-active .stat-number {
     color: #8b5cf6 !important;
+  }
+  .stat-box.shine-run::before {
+    animation: shineSwipe 0.5s ease forwards;
+  }
+  @keyframes shineSwipe {
+    from { left: -100%; }
+    to   { left: 100%; }
   }
 }
