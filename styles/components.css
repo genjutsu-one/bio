@@ -77,7 +77,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.18s ease;
+  transition: border-color 0.3s ease, transform 0.5s ease;
   position: relative;
 }
 .card::before {
@@ -128,7 +128,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.18s ease;
+  transition: border-color 0.3s ease, transform 0.5s ease;
   position: relative;
   overflow: hidden;
 }
@@ -177,7 +177,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color .15s, background .15s, transform .18s ease;
+  transition: border-color .15s, background .15s, transform 0.5s ease;
   position: relative;
   overflow: hidden;
 }
@@ -248,7 +248,7 @@
     transform: none !important;
     will-change: auto;
   }
-  .stat-box::before { display: block; transition: none; }
+  .stat-box::before { display: block; }
   .card::before, .community-item::before { display: none; }
   .stat-box:hover, .card:hover, .community-item:hover {
     border-color: var(--color-border) !important;
