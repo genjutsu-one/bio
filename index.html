@@ -86,7 +86,7 @@
     </section>
 
     <div class="section-title">music</div>
-    <section class="card music-card">
+    <section class="card music-card" onclick="toggleMute()" style="cursor:pointer">
       <div class="music-banner"></div>
       <div class="card-header"><div class="dot"></div><span>music<span class="ext">.mp3</span></span></div>
       <div class="card-content">
@@ -185,18 +185,7 @@
   </div>
 </div>
 
-<button class="mute-float" id="floatmute" title="mute / unmute">
-  <svg id="ficon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-  </svg>
-  <svg id="ficon-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-    <line x1="23" y1="9" x2="17" y2="15"/>
-    <line x1="17" y1="9" x2="23" y2="15"/>
-  </svg>
-</button>
+
 
 <script src="js/config.js"></script>
 <script type="module" src="js/main.js"></script>
