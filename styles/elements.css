@@ -15,7 +15,7 @@
   animation: codeType .65s steps(var(--chars)) forwards, codeCaret .65s step-end forwards;
   animation-delay: var(--delay), var(--delay);
 }
-.code-row:nth-child(1) .code-text { --chars: 13; --delay: .8s; }
+.code-row:nth-child(1) .code-text { --chars: 15; --delay: .8s; }
 .code-row:nth-child(2) .code-text { --chars: 18; --delay: 1.45s; }
 .code-row:nth-child(3) .code-text { --chars: 20; --delay: 2.1s; }
 .code-row:nth-child(4) .code-text { --chars: 32; --delay: 2.75s; }
@@ -124,7 +124,7 @@
   outline: none; transition: border-color .15s; width: 100%;
 }
 .text-input:focus { border-color: var(--color-border2); }
-textarea.text-input { resize: vertical; min-height: 70px; }
+textarea.text-input { resize: none; min-height: 70px; }
 .form-bottom { display: flex; align-items: center; justify-content: space-between; }
 .submit-btn {
   background: #ffffff;
