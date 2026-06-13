@@ -20,4 +20,23 @@ document.addEventListener('DOMContentLoaded', () => {
   initMusicPlayer();
   initBackground();
   init3DTilt();
+  
+  document.querySelectorAll('.stat-box').forEach(box => {
+    box.addEventListener('touchstart', () => {
+      box.classList.add('is-active');
+      box.classList.remove('shine-run');
+      void box.offsetWidth;
+      box.classList.add('shine-run');
+    }, { passive: true });
+
+    box.addEventListener('touchend', () => setTimeout(() => {
+      box.classList.remove('is-active');
+      box.classList.remove('shine-run');
+    }, 300));
+
+    box.addEventListener('touchcancel', () => {
+      box.classList.remove('is-active');
+      box.classList.remove('shine-run');
+    });
+  });
 });
