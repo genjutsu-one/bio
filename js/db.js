@@ -8,9 +8,20 @@ function setViewCounter(n) {
 }
 
 async function trackView() {
-  const cached = localStorage.getItem(VIEW_COUNT_KEY);
   if (localStorage.getItem(VIEW_SEEN_KEY)) {
-    if (cached) setViewCounter(cached);
+    try {
+      const { data, error } = await sb.from('meta').select('value').eq('key', 'views').single();
+      if (!error && data != null) {
+        localStorage.setItem(VIEW_COUNT_KEY, String(data.value));
+        setViewCounter(data.value);
+      } else {
+        const cached = localStorage.getItem(VIEW_COUNT_KEY);
+        if (cached) setViewCounter(cached);
+      }
+    } catch(e) {
+      const cached = localStorage.getItem(VIEW_COUNT_KEY);
+      if (cached) setViewCounter(cached);
+    }
     return;
   }
 
