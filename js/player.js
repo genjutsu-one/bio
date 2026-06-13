@@ -1,8 +1,30 @@
 let musicStarted = false;
 
+function getCurrentRotation(el) {
+  const st = window.getComputedStyle(el, null);
+  const tr = st.getPropertyValue('transform');
+  if (!tr || tr === 'none') return 0;
+  const vals = tr.split('(')[1].split(')')[0].split(',');
+  const a = parseFloat(vals[0]);
+  const b = parseFloat(vals[1]);
+  return Math.round(Math.atan2(b, a) * (180 / Math.PI));
+}
+
 function setPlayingUI(isPlaying) {
   const coverEl = document.getElementById('cover');
-  coverEl.classList.toggle('spinning', isPlaying);
+  if (isPlaying) {
+    coverEl.style.transform = '';
+    coverEl.classList.add('spinning');
+  } else {
+    const deg = getCurrentRotation(coverEl);
+    coverEl.classList.remove('spinning');
+    coverEl.style.transform = `rotate(${deg}deg)`;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        coverEl.style.transform = 'rotate(0deg)';
+      });
+    });
+  }
 }
 
 function applyMuteUI(playing) {
@@ -32,6 +54,7 @@ export function initMusicPlayer() {
   });
 
   document.getElementById('progress-bar').addEventListener('click', (e) => {
+    e.stopPropagation();
     const rect = e.currentTarget.getBoundingClientRect();
     if (audio.duration) {
       audio.currentTime = (e.clientX - rect.left) / rect.width * audio.duration;
@@ -58,6 +81,4 @@ export function initMusicPlayer() {
       applyMuteUI(true);
     }
   };
-
-  document.getElementById('floatmute').addEventListener('click', window.toggleMute);
 }
