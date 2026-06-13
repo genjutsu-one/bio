@@ -247,6 +247,15 @@
   .stat-box, .card, .community-item {
     transform: none !important;
     will-change: auto;
+    
+  .stat-box:active {
+    border-color: #8b5cf6 !important;
+    background: rgba(139, 92, 246, 0.07) !important;
+    transform: scale(0.97) !important;
+}
+.stat-box:active .stat-number {
+  color: #8b5cf6 !important;
+}
   }
   .stat-box::before, .card::before, .community-item::before { display: none; }
   .stat-box:hover, .card:hover, .community-item:hover {
