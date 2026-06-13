@@ -20,23 +20,36 @@ document.addEventListener('DOMContentLoaded', () => {
   initMusicPlayer();
   initBackground();
   init3DTilt();
-  
+
+  let activeBox = null;
+
+  function deactivateBox() {
+    if (activeBox) {
+      activeBox.classList.remove('is-active');
+      activeBox.classList.remove('shine-run');
+      activeBox = null;
+    }
+  }
+
   document.querySelectorAll('.stat-box').forEach(box => {
-    box.addEventListener('touchstart', () => {
+    box.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      if (activeBox && activeBox !== box) deactivateBox();
+
+      if (activeBox === box) {
+        deactivateBox();
+        return;
+      }
+
+      activeBox = box;
       box.classList.add('is-active');
       box.classList.remove('shine-run');
       void box.offsetWidth;
       box.classList.add('shine-run');
     }, { passive: true });
-
-    box.addEventListener('touchend', () => setTimeout(() => {
-      box.classList.remove('is-active');
-      box.classList.remove('shine-run');
-    }, 300));
-
-    box.addEventListener('touchcancel', () => {
-      box.classList.remove('is-active');
-      box.classList.remove('shine-run');
-    });
   });
+
+  document.addEventListener('touchstart', () => {
+    deactivateBox();
+  }, { passive: true });
 });
