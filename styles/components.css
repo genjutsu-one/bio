@@ -77,7 +77,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.18s ease;
+  transition: border-color 0.3s ease, transform 0.7s ease;
   position: relative;
 }
 .card::before {
@@ -128,7 +128,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.18s ease;
+  transition: border-color 0.3s ease, transform 0.7s ease;
   position: relative;
   overflow: hidden;
 }
