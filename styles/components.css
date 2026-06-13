@@ -267,13 +267,3 @@
     color: #8b5cf6 !important;
   }
 }
-  .stat-box::before, .card::before, .community-item::before { display: none; }
-  .stat-box:hover, .card:hover, .community-item:hover {
-    border-color: var(--color-border) !important;
-    background: var(--color-surface) !important;
-    transform: none !important;
-  }
-  .stat-box:hover::before, .card:hover::before, .community-item:hover::before { opacity: 0 !important; }
-  .stat-number { transition: none; }
-  .stat-box:hover .stat-number { color: var(--color-white); }
-}
