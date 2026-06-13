@@ -248,7 +248,7 @@
     transform: none !important;
     will-change: auto;
   }
-  .stat-box::before { display: block; }
+  .stat-box::before { display: block; transition: none; }
   .card::before, .community-item::before { display: none; }
   .stat-box:hover, .card:hover, .community-item:hover {
     border-color: var(--color-border) !important;
