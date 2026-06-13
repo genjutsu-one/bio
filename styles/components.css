@@ -77,7 +77,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.5s ease;
+  transition: border-color 0.3s ease, transform 0.18s ease;
   position: relative;
 }
 .card::before {
@@ -128,7 +128,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift, 0));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s ease, transform 0.5s ease;
+  transition: border-color 0.3s ease, transform 0.18s ease;
   position: relative;
   overflow: hidden;
 }
@@ -177,7 +177,7 @@
   transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color .15s, background .15s, transform 0.5s ease;
+  transition: border-color .15s, background .15s, transform .18s ease;
   position: relative;
   overflow: hidden;
 }
@@ -274,4 +274,32 @@
     from { left: -100%; }
     to   { left: 100%; }
   }
+}
+
+#matrix-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.matrix-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(5,5,5,0.5) 50%,
+    rgba(5,5,5,0.92) 100%
+  );
+  pointer-events: none;
+}
+
+.profile-bottom .avatar-wrap,
+.profile-bottom .profile-name {
+  position: relative;
+  z-index: 2;
 }
