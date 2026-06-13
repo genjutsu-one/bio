@@ -61,9 +61,13 @@
 .album-cover {
   width: 60px; height: 60px; border-radius: 8px; flex-shrink: 0;
   object-fit: cover; border: 1px solid var(--color-border2); display: block;
-  transition: border-radius .4s;
+  transition: border-radius .5s ease, transform .5s ease;
 }
-.album-cover.spinning { border-radius: 50%; animation: spin 8s linear infinite; }
+.album-cover.spinning {
+  border-radius: 50%;
+  animation: spin 8s linear infinite;
+  transition: border-radius .5s ease;
+}
 @keyframes spin { to { transform: rotate(360deg) } }
 .track-info  { flex: 1; min-width: 0; }
 .track-title  { font-size: 12px; color: var(--color-white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
