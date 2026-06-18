@@ -259,6 +259,8 @@
   .stat-number { transition: none; }
   .stat-box:hover .stat-number { color: var(--color-white); }
 
+  .showcase-media:hover video { transform: none; }
+
   .stat-box.is-active {
     border-color: #8b5cf6 !important;
     background: rgba(139, 92, 246, 0.07) !important;
