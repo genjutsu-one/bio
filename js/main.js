@@ -5,6 +5,7 @@ import { initMusicPlayer } from './player.js';
 import { initBackground } from './background.js';
 import { bootSequence } from './boot.js';
 import { init3DTilt } from './tilt.js';
+import { initShowcase } from './showcase.js';
 
 const sbClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 window._sbClient = sbClient;
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMusicPlayer();
   initBackground();
   init3DTilt();
+  initShowcase();
 
   let activeBox = null;
 
