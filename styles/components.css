@@ -259,7 +259,7 @@
   .stat-number { transition: none; }
   .stat-box:hover .stat-number { color: var(--color-white); }
 
-  .showcase-media:hover video { transform: none; }
+  .widget-media:hover video { transform: none; }
 
   .stat-box.is-active {
     border-color: #8b5cf6 !important;
