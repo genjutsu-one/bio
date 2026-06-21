@@ -1,5 +1,5 @@
 const widgetBase = 'https://raw.githubusercontent.com/genjutsu-one/bio/main/media/widget';
-const widgetCount = 9;
+const widgetCount = 10;
 const widgetInterval = 30 * 60 * 1000;
 
 function widgetUrlForSlot(slot) {
