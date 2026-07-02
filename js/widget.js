@@ -12,6 +12,22 @@ export function initWidget() {
   const vid = document.getElementById('widget-vid');
   if (!vid) return;
 
+  const media = vid.closest('.widget-media');
+  const soundIcon = document.getElementById('widget-sound');
+
+  function flashIcon() {
+    if (!soundIcon) return;
+    soundIcon.classList.remove('flash');
+    void soundIcon.offsetWidth;
+    soundIcon.classList.add('flash');
+  }
+
+  media?.addEventListener('click', () => {
+    vid.muted = !vid.muted;
+    media.classList.toggle('is-muted', vid.muted);
+    flashIcon();
+  });
+
   function applyCurrentSlot() {
     const slot = Math.floor(Date.now() / widgetInterval);
     vid.src = widgetUrlForSlot(slot);
