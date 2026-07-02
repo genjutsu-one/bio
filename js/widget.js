@@ -30,6 +30,13 @@ export function initWidget() {
   applyCurrentSlot();
   scheduleNext();
 
+  window.toggleWidgetMute = function() {
+    vid.muted = !vid.muted;
+    if (!vid.muted) {
+      vid.play().catch(() => {});
+    }
+  };
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) vid.play().catch(() => {});
