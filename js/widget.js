@@ -35,6 +35,7 @@ export function initWidget() {
     if (!vid.muted) {
       vid.play().catch(() => {});
     }
+    document.querySelector('.widget-card .dot').classList.toggle('playing', !vid.muted);
   };
 
   const observer = new IntersectionObserver((entries) => {
