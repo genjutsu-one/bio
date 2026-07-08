@@ -10,11 +10,6 @@
 .topbar-left { display: flex; align-items: center; gap: 10px; color: var(--color-faint); }
 .topbar-right { display: flex; align-items: center; gap: 6px; color: var(--color-faint); }
 
-.status-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: #4ade80; box-shadow: 0 0 6px #4ade80;
-  animation: blink 2s infinite;
-}
 @keyframes blink { 0%,100% { opacity:1 } 50% { opacity:.25 } }
 
 .profile-card {
@@ -106,12 +101,17 @@
 .card-header .dot {
   width: 4px; height: 4px;
   border-radius: 50%;
-  background: #8b5cf6;
+  --dot-color: #8b5cf6;
+  background: var(--dot-color);
   animation: dotPulse 2s ease-in-out infinite;
+}
+.music-card .dot.playing,
+.widget-card .dot.playing {
+  --dot-color: #4ade80;
 }
 @keyframes dotPulse {
   0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; box-shadow: 0 0 6px #8b5cf6; }
+  50% { opacity: 1; box-shadow: 0 0 6px var(--dot-color); }
 }
 .card-header .ext { opacity: .6; }
 .card-content { padding: 14px 16px; }
@@ -159,6 +159,9 @@
   letter-spacing: .1em; text-transform: uppercase;
   margin: 28px 0 10px;
   display: flex; align-items: center; gap: 10px;
+}
+.section-title::before {
+  content: '// ';
 }
 .section-title::after {
   content: '';
