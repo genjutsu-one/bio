@@ -12,6 +12,7 @@ function getCurrentRotation(el) {
 
 function setPlayingUI(isPlaying) {
   const coverEl = document.getElementById('cover');
+  document.querySelector('.music-card .dot').classList.toggle('playing', isPlaying);
   if (isPlaying) {
     coverEl.style.transform = '';
     coverEl.classList.add('spinning');
