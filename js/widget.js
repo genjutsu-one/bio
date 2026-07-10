@@ -2,9 +2,33 @@ const widgetBase = 'https://raw.githubusercontent.com/genjutsu-one/bio/main/medi
 const widgetCount = 10;
 const widgetInterval = 30 * 60 * 1000;
 
+let currentCycle = -1;
+let cycleOrder = [];
+
+function shuffleCycle(cycle) {
+  const arr = Array.from({ length: widgetCount }, (_, i) => i + 1);
+  let seed = cycle;
+  const rand = () => {
+    seed = Math.sin(seed) * 10000;
+    return seed - Math.floor(seed);
+  };
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function widgetUrlForSlot(slot) {
-  const hash = Math.abs(Math.sin(slot) * 10000);
-  const n = Math.floor(hash % widgetCount) + 1;
+  const cycle = Math.floor(slot / widgetCount);
+  const pos = slot % widgetCount;
+
+  if (cycle !== currentCycle) {
+    currentCycle = cycle;
+    cycleOrder = shuffleCycle(cycle);
+  }
+
+  const n = cycleOrder[pos];
   return n === 1 ? widgetBase + '.mp4' : widgetBase + n + '.mp4';
 }
 
