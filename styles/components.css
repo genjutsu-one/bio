@@ -110,8 +110,8 @@
   --dot-color: #4ade80;
 }
 @keyframes dotPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; box-shadow: 0 0 6px var(--dot-color); }
+  0%, 100% { opacity: 0.35; box-shadow: 0 0 2px 0px var(--dot-color); }
+  50% { opacity: 1; box-shadow: 0 0 12px 3px var(--dot-color); }
 }
 .card-header .ext { opacity: .6; }
 .card-content { padding: 14px 16px; }
