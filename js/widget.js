@@ -36,6 +36,12 @@ export function initWidget() {
   const vid = document.getElementById('widget-vid');
   if (!vid) return;
 
+  vid.addEventListener('loadedmetadata', () => {
+    if (vid.videoWidth && vid.videoHeight) {
+      vid.style.setProperty('--vid-ratio', vid.videoWidth + ' / ' + vid.videoHeight);
+    }
+  });
+
   function applyCurrentSlot() {
     const slot = Math.floor(Date.now() / widgetInterval);
     vid.src = widgetUrlForSlot(slot);
