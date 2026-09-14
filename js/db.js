@@ -10,10 +10,10 @@ function setViewCounter(n) {
 async function trackView() {
   if (localStorage.getItem(VIEW_SEEN_KEY)) {
     try {
-      const { data, error } = await sb.from('meta').select('value').eq('key', 'views').single();
+      const { data, error } = await sb.rpc('get_views');
       if (!error && data != null) {
-        localStorage.setItem(VIEW_COUNT_KEY, String(data.value));
-        setViewCounter(data.value);
+        localStorage.setItem(VIEW_COUNT_KEY, String(data));
+        setViewCounter(data);
       } else {
         const cached = localStorage.getItem(VIEW_COUNT_KEY);
         if (cached) setViewCounter(cached);
